@@ -18,7 +18,7 @@ from django.contrib import admin
 from django.urls import path
 
 from myapp.views import show_index
-from polls.views import show_subjects, show_teachers, praise_or_criticize
+from polls.views import show_subjects, show_teachers, praise_or_criticize, login, get_captcha, logout
 from django.conf.urls.static import static
 from django.conf import settings
 
@@ -29,4 +29,7 @@ urlpatterns = [
     path('teachers/', show_teachers),
     path('praise/', praise_or_criticize),
     path('criticize/', praise_or_criticize),
+    path('login/', login),
+    path('logout/', logout),
+    path('captcha/', get_captcha),
 ]

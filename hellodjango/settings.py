@@ -142,3 +142,9 @@ STATIC_URL = "static/"
 # https://docs.djangoproject.com/en/5.0/ref/settings/#default-auto-field
 
 DEFAULT_AUTO_FIELD = "django.db.models.BigAutoField"
+
+# 配置会话的超时时间为1天（86400秒）
+SESSION_COOKIE_AGE = 86400
+
+# 设置为True在关闭浏览器窗口时session就过期
+SESSION_EXPIRE_AT_BROWSER_CLOSE = True
