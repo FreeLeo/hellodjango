@@ -18,7 +18,7 @@ from django.contrib import admin
 from django.urls import path
 
 from myapp.views import show_index
-from polls.views import show_subjects, show_teachers
+from polls.views import show_subjects, show_teachers, praise_or_criticize
 from django.conf.urls.static import static
 from django.conf import settings
 
@@ -27,4 +27,6 @@ urlpatterns = [
     path("hello/", show_index),
     path('', show_subjects),
     path('teachers/', show_teachers),
+    path('praise/', praise_or_criticize),
+    path('criticize/', praise_or_criticize),
 ]

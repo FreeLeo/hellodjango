@@ -1,3 +1,4 @@
+from django.http import JsonResponse
 from django.shortcuts import render, redirect
 from polls.models import Subject, Teacher
 
@@ -11,7 +12,7 @@ def show_subjects(request):
 
 def show_teachers(request):
     try:
-        sno = int(request.Get.get('sno')) # 啥意思
+        sno = int(request.GET.get('sno'))  # 啥意思
         teachers = []
         if sno:
             subject = Subject.objects.only('name').get(no=sno)
@@ -22,3 +23,21 @@ def show_teachers(request):
         })
     except (ValueError, Subject.DoesNotExist):
         return redirect('/')
+
+
+def praise_or_criticize(request):
+    """好评"""
+    try:
+        tno = int(request.GET.get('tno'))
+        teacher = Teacher.objects.get(no=tno)
+        if request.path.startswith('/praise'):
+            teacher.good_count += 1
+            count = teacher.good_count
+        else:
+            teacher.bad_count += 1
+            count = teacher.bad_count
+        teacher.save()
+        data = {'code': 20000, 'mesg': '操作成功', 'count': count}
+    except (ValueError, Teacher.DoseNotExist):
+        data = {'code': 20001, 'mesg': '操作失败'}
+    return JsonResponse(data)
