@@ -7,6 +7,10 @@ from polls.utils import gen_md5_digest, gen_random_code
 # Create your views here.
 
 
+def show_teacher_charts(request):
+    return render(request, 'teachers_data.html')
+
+
 def show_subjects(request):
     subjects = Subject.objects.all().order_by('no')
     return render(request, 'subjects.html', {'subjects': subjects})
@@ -83,3 +87,11 @@ def get_captcha(request: HttpRequest) -> HttpResponse:
     request.session['captcha'] = captcha_text
     image_data = Captcha.instance().generate(captcha_text)
     return HttpResponse(image_data, content_type='image/png')
+
+
+def get_teachers_data(request):
+    queryset = Teacher.objects.all()
+    names = [teacher.name for teacher in queryset]
+    good_counts = [teacher.good_count for teacher in queryset]
+    bad_counts = [teacher.bad_count for teacher in queryset]
+    return JsonResponse({'names': names, 'good': good_counts, 'bad': bad_counts})
