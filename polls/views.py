@@ -1,7 +1,7 @@
 from django.http import HttpRequest, HttpResponse, JsonResponse
 from django.shortcuts import render, redirect
 from polls.captcha import Captcha
-from polls.models import Subject, Teacher, User
+from polls.models import Subject, SubjectMapper, Teacher, User
 from polls.utils import gen_md5_digest, gen_random_code
 from django.db.models import Avg
 
@@ -17,42 +17,48 @@ def show_subjects(request):
     return render(request, 'subjects.html', {'subjects': subjects})
 
 
+def show_subjects_vue(request):
+    return render(request, 'subjects_vue.html')
+
+
+def show_subjects_json(request):
+    queryset = Subject.objects.all()
+    subjects = []
+    for subject in queryset:
+        subjects.append(SubjectMapper(subject).as_dict())
+    return JsonResponse(subjects, safe=False, json_dumps_params={'ensure_ascii': False})
+
+
 def show_teachers(request):
-    if request.session.get('userid'):
-        try:
-            sno = int(request.GET.get('sno'))  # 啥意思
-            teachers = []
-            if sno:
-                subject = Subject.objects.only('name').get(no=sno)
-                teachers = Teacher.objects.filter(
-                    subject=subject).order_by('no')
-            return render(request, 'teachers.html', {
-                'subject': subject,
-                'teachers': teachers
-            })
-        except (ValueError, Subject.DoesNotExist):
-            return redirect('/')
-    else:
-        return redirect('/login/')
+    try:
+        sno = int(request.GET.get('sno'))  # 啥意思
+        teachers = []
+        if sno:
+            subject = Subject.objects.only('name').get(no=sno)
+            teachers = Teacher.objects.filter(
+                subject=subject).order_by('no')
+        return render(request, 'teachers.html', {
+            'subject': subject,
+            'teachers': teachers
+        })
+    except (ValueError, Subject.DoesNotExist):
+        return redirect('/')
 
 
 def praise_or_criticize(request: HttpRequest) -> HttpResponse:
-    if request.session.get('userid'):
-        try:
-            tno = int(request.GET.get('tno'))
-            teacher = Teacher.objects.get(no=tno)
-            if request.path.startswith('/praise/'):
-                teacher.good_count += 1
-                count = teacher.good_count
-            else:
-                teacher.bad_count += 1
-                count = teacher.bad_count
-            teacher.save()
-            data = {'code': 20000, 'mesg': '投票成功', 'count': count}
-        except (ValueError, Teacher.DoesNotExist):
-            data = {'code': 20001, 'mesg': '投票失败'}
-    else:
-        data = {'code': 20002, 'mesg': '请先登录'}
+    try:
+        tno = int(request.GET.get('tno'))
+        teacher = Teacher.objects.get(no=tno)
+        if request.path.startswith('/praise/'):
+            teacher.good_count += 1
+            count = teacher.good_count
+        else:
+            teacher.bad_count += 1
+            count = teacher.bad_count
+        teacher.save()
+        data = {'code': 20000, 'mesg': '投票成功', 'count': count}
+    except (ValueError, Teacher.DoesNotExist):
+        data = {'code': 20001, 'mesg': '投票失败'}
     return JsonResponse(data)
 
 

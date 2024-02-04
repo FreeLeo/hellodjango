@@ -5,7 +5,9 @@
 #   * Make sure each ForeignKey and OneToOneField has `on_delete` set to the desired behavior
 #   * Remove `managed = False` lines if you wish to allow Django to create, modify, and delete the table
 # Feel free to rename the models, but don't rename db_table values or field names.
+from bpmappers import RawField
 from django.db import models
+from bpmappers.djangomodel import ModelMapper
 
 
 class Subject(models.Model):
@@ -64,3 +66,11 @@ class User(models.Model):
         db_table = 'tb_user'
         verbose_name = '用户'
         verbose_name_plural = '用户'
+
+
+class SubjectMapper(ModelMapper):
+    isHot = RawField('is_hot')
+
+    class Meta:
+        model = Subject
+        # exclude = ('is_hot',)

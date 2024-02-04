@@ -18,7 +18,9 @@ from django.contrib import admin
 from django.urls import include, path
 
 from myapp.views import show_index
-from polls.views import show_subjects, show_teachers, praise_or_criticize, login, get_captcha, logout, get_teachers_data, show_teacher_charts
+from polls.views import show_subjects, show_teachers, praise_or_criticize
+from polls.views import get_captcha, logout, get_teachers_data
+from polls.views import login, show_teacher_charts, show_subjects_json, show_subjects_vue
 from django.conf.urls.static import static
 from django.conf import settings
 
@@ -26,6 +28,8 @@ urlpatterns = [
     path("admin/", admin.site.urls),
     path("hello/", show_index),
     path('', show_subjects),
+    path('subjects/vue/', show_subjects_vue),
+    path('api/subjects/', show_subjects_json),
     path('teachers/', show_teachers),
     path('praise/', praise_or_criticize),
     path('criticize/', praise_or_criticize),
