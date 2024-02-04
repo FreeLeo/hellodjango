@@ -15,7 +15,7 @@ Including another URLconf
     2. Add a URL to urlpatterns:  path('blog/', include('blog.urls'))
 """
 from django.contrib import admin
-from django.urls import path
+from django.urls import include, path
 
 from myapp.views import show_index
 from polls.views import show_subjects, show_teachers, praise_or_criticize, login, get_captcha, logout, get_teachers_data, show_teacher_charts
@@ -35,3 +35,7 @@ urlpatterns = [
     path('teachers_data/', get_teachers_data),
     path('show_teacher_charts', show_teacher_charts)
 ]
+
+if settings.DEBUG:
+    import debug_toolbar
+    urlpatterns.insert(0, path('__debug__/', include(debug_toolbar.urls)))

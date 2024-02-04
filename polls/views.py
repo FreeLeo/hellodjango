@@ -3,6 +3,7 @@ from django.shortcuts import render, redirect
 from polls.captcha import Captcha
 from polls.models import Subject, Teacher, User
 from polls.utils import gen_md5_digest, gen_random_code
+from django.db.models import Avg
 
 # Create your views here.
 
@@ -23,7 +24,8 @@ def show_teachers(request):
             teachers = []
             if sno:
                 subject = Subject.objects.only('name').get(no=sno)
-                teachers = Teacher.objects.filter(subject=subject).order_by('no')
+                teachers = Teacher.objects.filter(
+                    subject=subject).order_by('no')
             return render(request, 'teachers.html', {
                 'subject': subject,
                 'teachers': teachers
@@ -90,8 +92,18 @@ def get_captcha(request: HttpRequest) -> HttpResponse:
 
 
 def get_teachers_data(request):
-    queryset = Teacher.objects.all()
-    names = [teacher.name for teacher in queryset]
-    good_counts = [teacher.good_count for teacher in queryset]
-    bad_counts = [teacher.bad_count for teacher in queryset]
+    # queryset = Teacher.objects.all()
+    # names = [teacher.name for teacher in queryset]
+    # good_counts = [teacher.good_count for teacher in queryset]
+    # bad_counts = [teacher.bad_count for teacher in queryset]
+
+    # queryset = Teacher.objects.values('subject').annotate(
+    #     good=Avg('good_count'), bad=Avg('bad_count'))
+    queryset = Teacher.objects.values('subject__intro').annotate(
+        good=Avg('good_count'), bad=Avg('bad_count'))
+    print(queryset)
+    names = [data['subject__intro'] for data in queryset]
+    print(names)
+    good_counts = [data['good'] for data in queryset]
+    bad_counts = [data['bad'] for data in queryset]
     return JsonResponse({'names': names, 'good': good_counts, 'bad': bad_counts})
