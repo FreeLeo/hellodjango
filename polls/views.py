@@ -21,14 +21,6 @@ def show_subjects_vue(request):
     return render(request, 'subjects_vue.html')
 
 
-def show_subjects_json(request):
-    queryset = Subject.objects.all()
-    subjects = []
-    for subject in queryset:
-        subjects.append(SubjectMapper(subject).as_dict())
-    return JsonResponse(subjects, safe=False, json_dumps_params={'ensure_ascii': False})
-
-
 def show_teachers(request):
     try:
         sno = int(request.GET.get('sno'))  # 啥意思
