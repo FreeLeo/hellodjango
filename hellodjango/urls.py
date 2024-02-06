@@ -24,13 +24,14 @@ from polls.views import get_captcha, logout, get_teachers_data
 from polls.views import login, show_teacher_charts, show_subjects_vue
 from django.conf.urls.static import static
 from django.conf import settings
+from rest_framework.routers import DefaultRouter
 
 urlpatterns = [
     path("admin/", admin.site.urls),
     path("hello/", show_index),
     path('', show_subjects),
     path('subjects/vue/', show_subjects_vue),
-    path('api/subjects/', rest_api.show_subjects_json),
+    # path('api/subjects/', rest_api.show_subjects_json),
     path('teachers/', show_teachers),
     path('praise/', praise_or_criticize),
     path('criticize/', praise_or_criticize),
@@ -39,10 +40,16 @@ urlpatterns = [
     path('captcha/', get_captcha),
     path('teachers_data/', get_teachers_data),
     path('show_teacher_charts', show_teacher_charts),
-    
+
     path('rest/api/', rest_api.show_subjects_json),
     path('rest/api/teachers/', rest_api.show_teachers),
+
+    # path('api/subjects/', rest_api.SubjectView.as_view()),
 ]
+
+router = DefaultRouter()
+router.register('api/subjects', rest_api.SubjectViewSet, basename='subject')
+urlpatterns += router.urls
 
 if settings.DEBUG:
     import debug_toolbar

@@ -58,9 +58,9 @@ MIDDLEWARE = [
 # 下面的配置根据项目需要进行设置
 REST_FRAMEWORK = {
     # 配置默认页面大小
-    # 'PAGE_SIZE': 10,
+    'PAGE_SIZE': 2,
     # 配置默认的分页类
-    # 'DEFAULT_PAGINATION_CLASS': '...',
+    'DEFAULT_PAGINATION_CLASS': 'rest_framework.pagination.PageNumberPagination',
     # 配置异常处理器
     # 'EXCEPTION_HANDLER': '...',
     # 配置默认解析器

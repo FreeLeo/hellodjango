@@ -1,0 +1,2 @@
+[flake8]
+max-line-length = 120  # 设置每行的最大字符数
