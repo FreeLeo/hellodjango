@@ -32,6 +32,7 @@ ALLOWED_HOSTS = []
 # Application definition
 
 INSTALLED_APPS = [
+    'study',
     'rest_framework',
     "polls",
     'debug_toolbar',
@@ -121,18 +122,35 @@ DATABASES = {
     #     "ENGINE": "django.db.backends.sqlite3",
     #     "NAME": BASE_DIR / "db.sqlite3",
     # }
+    # 'default': {
+    #     # 数据库引擎配置
+    #     'ENGINE': 'django.db.backends.mysql',
+    #     # 数据库的名字
+    #     'NAME': 'vote',
+    #     # 数据库服务器的IP地址（本机可以写localhost或127.0.0.1）
+    #     'HOST': 'localhost',
+    #     # 启动MySQL服务的端口号
+    #     'PORT': 3306,
+    #     # 数据库用户名和口令
+    #     'USER': 'hellokitty',
+    #     'PASSWORD': 'Hellokitty.618',
+    #     # 数据库使用的字符集
+    #     'CHARSET': 'utf8',
+    #     # 数据库时间日期的时区设定
+    #     'TIME_ZONE': 'Asia/Chongqing',
+    # }
     'default': {
         # 数据库引擎配置
         'ENGINE': 'django.db.backends.mysql',
         # 数据库的名字
-        'NAME': 'vote',
+        'NAME': 'test_lizhen',
         # 数据库服务器的IP地址（本机可以写localhost或127.0.0.1）
         'HOST': 'localhost',
         # 启动MySQL服务的端口号
         'PORT': 3306,
         # 数据库用户名和口令
-        'USER': 'hellokitty',
-        'PASSWORD': 'Hellokitty.618',
+        'USER': 'lizhen',
+        'PASSWORD': 'test_lizhen',
         # 数据库使用的字符集
         'CHARSET': 'utf8',
         # 数据库时间日期的时区设定
