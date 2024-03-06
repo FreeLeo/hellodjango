@@ -20,7 +20,7 @@ class Subject(models.Model):
         return self.name
 
     class Meta:
-        managed = False
+        managed = True
         db_table = 'tb_subject'
         verbose_name = '学科'
         verbose_name_plural = '学科'
@@ -41,7 +41,7 @@ class Teacher(models.Model):
         Subject, models.DO_NOTHING, db_column='sno', verbose_name='学科')
 
     class Meta:
-        managed = False
+        managed = True
         db_table = 'tb_teacher'
         verbose_name = '老师'
         verbose_name_plural = '老师'

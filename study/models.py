@@ -13,7 +13,7 @@ class Person(models.Model):
     age = models.IntegerField()
 
     class Meta:
-        managed = False
+        managed = True
         db_table = 'person'
         verbose_name = '人员'
         verbose_name_plural = '人员复数'
@@ -25,7 +25,7 @@ class TbDept(models.Model):
     dloc = models.CharField(max_length=20)
 
     class Meta:
-        managed = False
+        managed = True
         db_table = 'tb_dept'
         verbose_name = '部门'
         verbose_name_plural = '部门复数'

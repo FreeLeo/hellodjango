@@ -25,6 +25,8 @@ from polls.views import login, show_teacher_charts, show_subjects_vue
 from django.conf.urls.static import static
 from django.conf import settings
 from rest_framework.routers import DefaultRouter
+from study import rest_api as study_api
+from study.views import UserPermissionsAPIView
 
 urlpatterns = [
     path("admin/", admin.site.urls),
@@ -45,6 +47,10 @@ urlpatterns = [
     path('rest/api/teachers/', rest_api.show_teachers),
 
     # path('api/subjects/', rest_api.SubjectView.as_view()),
+    
+    path('study/permissions/<str:username>', UserPermissionsAPIView.as_view(), name='user_permissions_api'),
+    path('study/login', study_api.studyLogin, name='login_api'),
+    path('study/logout', study_api.studyLogout, name='logout_api'),
 ]
 
 router = DefaultRouter()
