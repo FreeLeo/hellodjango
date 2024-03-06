@@ -149,8 +149,8 @@ DATABASES = {
         # 启动MySQL服务的端口号
         'PORT': 3306,
         # 数据库用户名和口令
-        'USER': 'lizhen',
-        'PASSWORD': 'test_lizhen',
+        'USER': 'root',
+        'PASSWORD': '123456',
         # 数据库使用的字符集
         'CHARSET': 'utf8',
         # 数据库时间日期的时区设定
